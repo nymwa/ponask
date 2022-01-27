@@ -35,7 +35,7 @@ def load_dataset():
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument('--vocab', default = 'vocab.txt')
-    parser.add_argument('--max-tokens', type = int, default = 4000)
+    parser.add_argument('--max-tokens', type = int, default = 10000)
     parser.add_argument('--mask-th', type = float, default = 0.15)
     parser.add_argument('--replace-th', type = float, default = 0.03)
     parser.add_argument('--hidden-dim', type = int, default = 128)
@@ -83,7 +83,7 @@ def main():
     clip_norm = args.clip_norm
 
     num_steps = 0
-    for epoch in range(300):
+    for epoch in range(600):
         accum = Accumulator(epoch, len(loader))
         for step, batch in enumerate(loader):
             batch.cuda()

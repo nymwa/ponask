@@ -15,6 +15,7 @@ class Collator:
         self.replace_th = replace_th
 
     def __call__(self, batch):
+        batch = [[self.vocab.bos] + sent + [self.vocab.eos] for sent in batch]
         ei = [torch.tensor(sent) for sent in batch]
         eo = [torch.tensor(sent) for sent in batch]
         el = [len(sent) for sent in batch]
