@@ -19,7 +19,7 @@ def parse_args():
     parser.add_argument('--vocab', default = 'vocab.txt')
     parser.add_argument('--hidden-dim', type = int, default = 128)
     parser.add_argument('--nhead', type = int, default = 4)
-    parser.add_argument('--feedforward_dim', type = int, default = 256)
+    parser.add_argument('--feedforward-dim', type = int, default = 256)
     parser.add_argument('--dropout', type = float, default = 0.3)
     parser.add_argument('--attention-dropout', type = float, default = 0.2)
     parser.add_argument('--activation-dropout', type = float, default = 0.2)
