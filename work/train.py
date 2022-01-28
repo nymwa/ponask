@@ -40,7 +40,7 @@ def parse_args():
     parser.add_argument('--replace-th', type = float, default = 0.03)
     parser.add_argument('--hidden-dim', type = int, default = 128)
     parser.add_argument('--nhead', type = int, default = 4)
-    parser.add_argument('--feedforward_dim', type = int, default = 256)
+    parser.add_argument('--feedforward-dim', type = int, default = 256)
     parser.add_argument('--dropout', type = float, default = 0.3)
     parser.add_argument('--attention-dropout', type = float, default = 0.2)
     parser.add_argument('--activation-dropout', type = float, default = 0.2)
@@ -50,6 +50,7 @@ def parse_args():
     parser.add_argument('--weight-decay', type = float, default = 0.01)
     parser.add_argument('--clip-norm', type = float, default = 1.0)
     parser.add_argument('--warmup-steps', type = int, default = 8000)
+    parser.add_argument('--epochs', type = int, default = 300)
     return parser.parse_args()
 
 
@@ -83,7 +84,7 @@ def main():
     clip_norm = args.clip_norm
 
     num_steps = 0
-    for epoch in range(600):
+    for epoch in range(args.epochs):
         accum = Accumulator(epoch, len(loader))
         for step, batch in enumerate(loader):
             batch.cuda()

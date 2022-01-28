@@ -1,3 +1,4 @@
 data
 train.log
 bert.pt
+run_train.sh
