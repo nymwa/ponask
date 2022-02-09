@@ -50,7 +50,12 @@ def get_sents():
     path_list = [
             '../../tokipona-corpus-collection/100tokipona/100tokipona.txt',
             '../../tokipona-corpus-collection/tokipona1000/tokipona1000.txt',
-            '../../tokipona-corpus-collection/tatoeba/tatoeba.txt']
+            '../../tokipona-corpus-collection/tatoeba/tatoeba.txt',
+            '../../tokipona-corpus-collection/pu/pu.txt',
+            '../../tokipona-corpus-collection/matthew/dave.txt',
+            '../../tokipona-corpus-collection/matthew/mika.txt',
+            '../../tokipona-corpus-collection/matthew/ote.txt',
+            '../../tokipona-corpus-collection/matthew/prince.txt']
 
     with ExitStack() as stack:
         sents = [
@@ -64,7 +69,7 @@ def get_sents():
         sent
         for sent
         in sents
-        if len(sent.split()) <= 30]
+        if len(sent.split()) <= 100]
     return sents
 
 
@@ -100,8 +105,8 @@ def main():
 
     train_sents, valid_sents, test_sents = split_sents(
             sents,
-            valid_size = 2000,
-            test_size = 2000)
+            valid_size = 1000,
+            test_size = 1000)
 
     tokens = make_tokens(train_sents)
     with open('vocab.txt', 'w') as f:

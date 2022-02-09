@@ -35,7 +35,9 @@ class BERT(nn.Module):
         self.fc = nn.Linear(d_model, d_vocab)
 
     def forward(self, batch):
-        x = self.embedding(batch.inputs)
+        x = self.embedding(
+                batch.inputs,
+                position_ids = batch.position)
         x = self.encoder(
                 x,
                 padding_mask = batch.padding)

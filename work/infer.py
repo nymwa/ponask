@@ -24,7 +24,7 @@ def parse_args():
     parser.add_argument('--attention-dropout', type = float, default = 0.2)
     parser.add_argument('--activation-dropout', type = float, default = 0.2)
     parser.add_argument('--num-layers', type = int, default = 12)
-    parser.add_argument('--max-len', type = int, default = 64)
+    parser.add_argument('--max-len', type = int, default = 256)
     return parser.parse_args()
 
 def main():

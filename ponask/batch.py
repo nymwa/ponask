@@ -5,11 +5,13 @@ class Batch:
             ei,
             eo = None,
             el = None,
+            epi = None,
             epm = None):
 
         self.inputs = ei
         self.outputs = eo
         self.lengths = el
+        self.position = epi
         self.padding = epm
 
     def __len__(self):
@@ -23,6 +25,9 @@ class Batch:
 
         if self.outputs is not None:
             self.outputs = self.outputs.cuda()
+
+        if self.position is not None:
+            self.position = self.position.cuda()
 
         if self.padding is not None:
             self.padding = self.padding.cuda()

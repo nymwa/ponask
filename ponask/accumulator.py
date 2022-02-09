@@ -28,8 +28,9 @@ class Accumulator:
                 len(self.spbs),
                 self.num_batches)
         line += ' | loss {:.4f}'.format(self.losss[-1])
-        line += ' | lr {:.4f}'.format(self.lrs[-1])
-        line += ' | grad {:.4f}'.format(self.grads[-1])
+        line += ' | lr {:.8f}'.format(self.lrs[-1])
+        if self.grads[0] is not None:
+            line += ' | grad {:.4f}'.format(self.grads[-1])
         line += ' | w/b {}'.format(self.wpbs[-1])
         line += ' | s/b {}'.format(self.spbs[-1])
         return line
@@ -42,8 +43,9 @@ class Accumulator:
         line = '| train'
         line += ' | epoch {}'.format(self.epoch)
         line += ' | loss {:.4f}'.format(self.avg(self.losss))
-        line += ' | lr {:.4f}'.format(self.avg(self.lrs))
-        line += ' | grad {:.4f}'.format(self.avg(self.grads))
+        line += ' | lr {:.8f}'.format(self.avg(self.lrs))
+        if self.grads[0] is not None:
+            line += ' | grad {:.4f}'.format(self.avg(self.grads))
         line += ' | w/b {:.1f}'.format(self.avg(self.wpbs))
         line += ' | s/b {:.1f}'.format(self.avg(self.spbs))
         line += ' | steps {}'.format(num_steps)

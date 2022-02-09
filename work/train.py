@@ -38,6 +38,8 @@ def parse_args():
     parser.add_argument('--max-tokens', type = int, default = 10000)
     parser.add_argument('--mask-th', type = float, default = 0.15)
     parser.add_argument('--replace-th', type = float, default = 0.03)
+    parser.add_argument('--shift-prob', type = float, default = 0.80)
+    parser.add_argument('--max-shift', type = int, default = 128)
     parser.add_argument('--hidden-dim', type = int, default = 128)
     parser.add_argument('--nhead', type = int, default = 4)
     parser.add_argument('--feedforward-dim', type = int, default = 256)
@@ -45,7 +47,7 @@ def parse_args():
     parser.add_argument('--attention-dropout', type = float, default = 0.2)
     parser.add_argument('--activation-dropout', type = float, default = 0.2)
     parser.add_argument('--num-layers', type = int, default = 12)
-    parser.add_argument('--max-len', type = int, default = 64)
+    parser.add_argument('--max-len', type = int, default = 256)
     parser.add_argument('--lr', type = float, default = 0.002)
     parser.add_argument('--weight-decay', type = float, default = 0.01)
     parser.add_argument('--clip-norm', type = float, default = 1.0)
@@ -59,8 +61,16 @@ def main():
     vocab = load_vocab(args.vocab)
     dataset = load_dataset()
     sampler = Sampler(dataset, args.max_tokens)
-    collator = Collator(vocab, args.mask_th, args.replace_th)
-    loader = DataLoader(dataset, batch_sampler = sampler, collate_fn = collator)
+    collator = Collator(
+            vocab,
+            args.mask_th,
+            args.replace_th,
+            args.shift_prob,
+            args.max_shift)
+    loader = DataLoader(
+            dataset,
+            batch_sampler = sampler,
+            collate_fn = collator)
 
     model = BERT(
             len(vocab),
@@ -93,7 +103,10 @@ def main():
             loss = criterion(pred, batch.outputs.view(-1))
             optimizer.zero_grad()
             loss.backward()
-            grad = nn.utils.clip_grad_norm_(model.parameters(), clip_norm)
+            if clip_norm > 0:
+                grad = nn.utils.clip_grad_norm_(model.parameters(), clip_norm)
+            else:
+                grad = None
             optimizer.step()
             scheduler.step()
             num_steps += 1
